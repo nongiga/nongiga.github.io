@@ -8,10 +8,7 @@ interests: ["Microbiome","Genomics","Self-supervised learning"]
 social:
   - icon: envelope
     icon_pack: fas
-    link: /#contact
-  - icon: twitter
-    icon_pack: fab
-    link: https://twitter.com/nongiga
+    link: mailto:noga.aharony@columbia.edu
   - icon: graduation-cap
     icon_pack: fas
     link: https://scholar.google.com/citations?user=nVw6rmsAAAAJ&hl=en
@@ -21,6 +18,9 @@ social:
   - icon: linkedin
     icon_pack: fab
     link: https://www.linkedin.com/in/nogaaharony
+  - icon: twitter
+    icon_pack: fab
+    link: https://twitter.com/nongiga
 organizations:
   - name: Columbia University Medical Campus
     url: https://www.cuimc.columbia.edu/
