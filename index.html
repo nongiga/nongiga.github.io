@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noga Aharony</title>
-  <meta name="description" content="Noga Aharony — PhD candidate in Systems Biology at Columbia University. PhD candidate in Systems Biology at Columbia University, interested in machine learning for genomics and microbial evolution.">
+  <meta name="description" content="Noga Aharony is a PhD candidate in Systems Biology at Columbia University, evaluating and applying genome language models in microbial genomics and biosurveillance.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -423,6 +423,15 @@
 
     /* ─── WRITING / POSTS ─── */
     .writing-list { display: flex; flex-direction: column; gap: 0; }
+    .presentation-group + .presentation-group { margin-top: 3rem; }
+    .presentation-group-title {
+      margin-bottom: 0.75rem;
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
     .writing-item {
       display: grid;
       grid-template-columns: 100px 1fr;
@@ -628,7 +637,7 @@
     <div class="hero-left">
       <div class="hero-greeting">Systems Biology &middot; Columbia University</div>
       <h1 class="hero-name">Noga Aharony</h1>
-      <p class="hero-tagline">PhD candidate in Systems Biology at Columbia, researching how to adapt machine learning to genomics in a biologically meaningful way.</p>
+      <p class="hero-tagline">PhD candidate in Systems Biology at Columbia, evaluating and applying genome language models in microbial genomics and biosurveillance.</p>
       <div class="hero-links">
         <a href="https://scholar.google.com/citations?user=nVw6rmsAAAAJ&hl=en" target="_blank">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
@@ -642,7 +651,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
         </a>
-        <a href="resume.pdf?v=20260723" target="_blank">
+        <a href="resume.pdf?v=20260802" target="_blank">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           CV
         </a>
@@ -657,20 +666,20 @@
 <!-- ─── BIO CARDS ─── -->
 <div class="bio-strip">
   <div class="bio-card reveal">
-    <h3>Research</h3>
-    <p>Part of the AQLab at the Program for Mathematical Genomics, where the group constructs a foundational, whole-genome language model. My focus is on evaluating these models and applying them in novel ways, especially to microbes.</p>
+    <h3>Research focus</h3>
+    <p>I study what genome language models learn, where they fail, and how they can be used in microbial genomics and biosurveillance. My work spans genomic context, pathway-level reasoning, metagenomic binning, and detection across evolutionary distance.</p>
   </div>
   <div class="bio-card reveal" style="transition-delay: 0.1s">
-    <h3>Education</h3>
+    <h3>Current affiliations</h3>
     <ul>
-      <li><strong>PhD, Systems Biology</strong> <span class="muted">Columbia — ongoing</span></li>
-      <li><strong>MSc, Biology</strong> <span class="muted">Technion Institute — 2021</span></li>
-      <li><strong>BSc, Neuroscience</strong> <span class="muted">McGill — 2019</span></li>
+      <li><strong>PhD candidate, Systems Biology</strong> <span class="muted">Columbia University</span></li>
+      <li><strong>Pivotal Research Frontier Biodefense Fellow</strong> <span class="muted">Aug&ndash;Oct 2026</span></li>
+      <li><strong>MATS Autumn 2026</strong> <span class="muted">Sep&ndash;Dec 2026</span></li>
     </ul>
   </div>
   <div class="bio-card reveal" style="transition-delay: 0.2s">
-    <h3>Recognition</h3>
-    <p>Incoming Fellow, Pivotal Research Frontier Biodefense Fellowship (2026). Open Philanthropy Early Career Funding recipient. Gutwirth Memorial Fellowship for Excellence in Research for harnessing novel genomic approaches and big data to investigate how bacterial pathogens evolve upon recurring infections (Kishony Lab, Technion).</p>
+    <h3>Selected recognition</h3>
+    <p>Recipient of Open Philanthropy early-career funding, the Miriam and Aaron Gutwirth Memorial Fellowship for Excellence in Research, and the NYC-PRI Innovative Tools and Solutions award.</p>
   </div>
 </div>
 
@@ -839,56 +848,65 @@
 <section class="section" id="talks">
   <div class="section-label reveal">Presentations</div>
   <div class="section-title reveal">Posters &amp; Talks</div>
-  <p class="section-desc reveal">Accepted abstracts and invited presentations.</p>
+  <p class="section-desc reveal">Confirmed upcoming presentations and selected past work.</p>
 
-  <div class="writing-list">
-    <div class="writing-item" style="cursor:default;">
-      <span class="writing-date">2026</span>
-      <div class="writing-info">
-        <h3>Benchmarking Genome Language Models for Novel Virus Detection in Wastewater Across Evolutionary Distance</h3>
-        <p>Selected for oral presentation, ASM BIG 2026 &middot; N Aharony, S Wang, W Neiswanger</p>
+  <div class="presentation-group" id="upcoming-presentations">
+    <div class="presentation-group-title reveal">Upcoming</div>
+    <div class="writing-list">
+      <div class="writing-item" style="cursor:default;">
+        <span class="writing-date">Sep 2026</span>
+        <div class="writing-info">
+          <h3>Evaluating Genome Language Model Embeddings as Transferable Priors for Metagenomic Binning</h3>
+          <p>Accepted poster, CIBB 2026 &middot; Rome, Italy &middot; September 2&ndash;4, 2026 &middot; N Aharony, M AlQuraishi</p>
+        </div>
+      </div>
+      <div class="writing-item" style="cursor:default;">
+        <span class="writing-date">Oct 2026</span>
+        <div class="writing-info">
+          <h3>Benchmarking Genome Language Models for Novel Virus Detection in Wastewater Across Evolutionary Distance</h3>
+          <p>Selected oral presentation, ASM BIG 2026 &middot; Washington, DC &middot; October 11&ndash;14, 2026; talk October 13 &middot; N Aharony, S Wang, W Neiswanger</p>
+        </div>
       </div>
     </div>
-    <div class="writing-item" style="cursor:default;">
-      <span class="writing-date">2026</span>
-      <div class="writing-info">
-        <h3>Evaluating Genome Language Model Embeddings as Transferable Priors for Metagenomic Binning</h3>
-        <p>Accepted poster, CIBB 2026 &middot; N Aharony, M AlQuraishi</p>
+  </div>
+
+  <div class="presentation-group" id="selected-past-presentations">
+    <div class="presentation-group-title reveal">Selected past</div>
+    <div class="writing-list">
+      <div class="writing-item" style="cursor:default;">
+        <span class="writing-date">2026</span>
+        <div class="writing-info">
+          <h3>PRIME-Bench: A Benchmark for Pathway-Level Reasoning in Genome Language Models</h3>
+          <p>Poster, ISMB 2026 &middot; T Le Lievre*, <strong>N Aharony*</strong>, M AlQuraishi</p>
+        </div>
       </div>
-    </div>
-    <div class="writing-item" style="cursor:default;">
-      <span class="writing-date">2026</span>
-      <div class="writing-info">
-        <h3>PRIME-Bench: A Benchmark for Pathway-Level Reasoning in Genome Language Models</h3>
-        <p>Accepted poster, ISMB 2026 &middot; T Le Lievre*, <strong>N Aharony*</strong>, M AlQuraishi</p>
+      <div class="writing-item" style="cursor:default;">
+        <span class="writing-date">2026</span>
+        <div class="writing-info">
+          <h3>Who Holds the Reins in Agent-Assisted Systems Biology?</h3>
+          <p>Poster and extended abstract, NE AI Agents Day 2026</p>
+        </div>
       </div>
-    </div>
-    <div class="writing-item" style="cursor:default;">
-      <span class="writing-date">2026</span>
-      <div class="writing-info">
-        <h3>Who Holds the Reins in Agent-Assisted Systems Biology?</h3>
-        <p>Accepted poster &amp; extended abstract, NE AI Agents Day 2026</p>
+      <div class="writing-item" style="cursor:default;">
+        <span class="writing-date">2026</span>
+        <div class="writing-info">
+          <h3>Evaluating Genome Language Models for Metagenomic Binning</h3>
+          <p>Poster, Pioneering Israeli Science Conference / ScienceAbroad 2026</p>
+        </div>
       </div>
-    </div>
-    <div class="writing-item" style="cursor:default;">
-      <span class="writing-date">2026</span>
-      <div class="writing-info">
-        <h3>Evaluating Genome Language Models for Metagenomic Binning</h3>
-        <p>Accepted poster, Pioneering Israeli Science Conference / ScienceAbroad 2026</p>
+      <div class="writing-item" style="cursor:default;">
+        <span class="writing-date">2026</span>
+        <div class="writing-info">
+          <h3>Rapid Talks and Panel: 2024 Innovative Tools &amp; Solutions Award Recipients</h3>
+          <p>Flash talk and panelist, PRI 2026</p>
+        </div>
       </div>
-    </div>
-    <div class="writing-item" style="cursor:default;">
-      <span class="writing-date">2026</span>
-      <div class="writing-info">
-        <h3>Rapid Talks and Panel: 2024 Innovative Tools &amp; Solutions Award Recipients</h3>
-        <p>Flash talk &amp; panelist, PRI 2026</p>
-      </div>
-    </div>
-    <div class="writing-item" style="cursor:default;">
-      <span class="writing-date">2025</span>
-      <div class="writing-info">
-        <h3>Genome Language Models Reading the Future of Pandemics in Wastewater</h3>
-        <p>Flash talk, PRI Innovation Showcase</p>
+      <div class="writing-item" style="cursor:default;">
+        <span class="writing-date">2025</span>
+        <div class="writing-info">
+          <h3>Genome Language Models Reading the Future of Pandemics in Wastewater</h3>
+          <p>Flash talk, PRI Innovation Showcase</p>
+        </div>
       </div>
     </div>
   </div>
