@@ -246,7 +246,7 @@ Create `scripts/update_cv.py` using bundled `python-docx`. It must:
 3. insert `CURRENT FELLOWSHIPS AND AFFILIATIONS` after Education, using a two-column table matching existing CV tables;
 4. add:
    - `Aug–Oct 2026` — `Pivotal Research Frontier Biodefense Fellow` followed by a one-sentence description of the confirmed detection-focused project;
-   - `Sep–Dec 2026` — `MATS Autumn 2026` followed by `Ralston/Petty Founding & Field-Building stream`;
+   - `Sep–Dec 2026` — `ML Alignment & Theory Scholars (MATS), Autumn 2026`, Biosecurity track, mentored by Gary Abel at Fourth Eon Bio;
 5. prepend the two upcoming CIBB and ASM BIG entries to `POSTERS AND TALKS`, with conference dates, locations, and formats;
 6. prepend Pivotal and MATS as 2026 entries to `AWARDS AND FUNDING`, while retaining every existing row;
 7. use `keep_with_next` on section headings and avoid fixed row heights.
@@ -416,4 +416,3 @@ git commit -m "fix: polish website and CV profile refresh"
 ```
 
 Skip this commit if no corrections were required.
-

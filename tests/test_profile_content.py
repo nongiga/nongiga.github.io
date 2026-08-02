@@ -44,12 +44,12 @@ class ProfileContentTests(unittest.TestCase):
         self.assertIn("evaluating and applying genome language models", self.html)
         self.assertIn("Current affiliations", self.html)
         self.assertIn("ML Alignment &amp; Theory Scholars (MATS), Autumn 2026", self.html)
-        self.assertIn(
-            "Biosecurity stream, Founding &amp; Field-Building track",
-            self.html,
-        )
+        self.assertIn("Biosecurity track", self.html)
+        self.assertIn("Gary Abel, Fourth Eon Bio", self.html)
         self.assertIn("Pivotal Research Frontier Biodefense Fellow", self.html)
         self.assertNotIn("Incoming Fellow", self.html)
+        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan"):
+            self.assertNotIn(incorrect, self.html)
 
     def test_upcoming_presentations_are_confirmed_only(self):
         upcoming = re.search(
@@ -76,13 +76,17 @@ class ProfileContentTests(unittest.TestCase):
         for expected in (
             "CURRENT FELLOWSHIPS AND AFFILIATIONS",
             "ML Alignment & Theory Scholars (MATS), Autumn 2026",
-            "Biosecurity stream in the Founding & Field-Building track",
-            "Geoff Ralston and Charlie Petty",
+            "Biosecurity track",
+            "Gary Abel",
+            "Fourth Eon Bio",
+            "function-based DNA synthesis screening",
             "Pivotal Research Frontier Biodefense Fellowship",
             "CIBB 2026",
             "ASM BIG 2026",
         ):
             self.assertIn(expected, text)
+        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan"):
+            self.assertNotIn(incorrect, text)
 
     def test_cv_updates_are_in_their_intended_sections(self):
         blocks = docx_body_blocks(DOCX_PATH)
@@ -133,14 +137,20 @@ class ProfileContentTests(unittest.TestCase):
             capture_output=True,
             text=True,
         )
+        pdf_text = result.stdout
         for expected in (
             "ML Alignment & Theory Scholars (MATS), Autumn 2026",
+            "Biosecurity track",
+            "Gary Abel",
+            "Fourth Eon Bio",
             "Pivotal Research Frontier Biodefense Fellow",
             "CIBB 2026",
             "ASM BIG 2026",
             "Noga Aharony CV | August 2026",
         ):
-            self.assertIn(expected, result.stdout)
+            self.assertIn(expected, pdf_text)
+        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan"):
+            self.assertNotIn(incorrect, pdf_text)
 
 
 if __name__ == "__main__":

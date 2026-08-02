@@ -130,9 +130,9 @@ def insert_fellowships_section(document: Document):
             [
                 ("ML Alignment & Theory Scholars (MATS), Autumn 2026", "bold"),
                 (
-                    "Biosecurity stream in the Founding & Field-Building track, "
-                    "mentored by Geoff Ralston and Charlie Petty; working on the "
-                    "Bio Action Plan for catastrophic biological risk in the age of AI.",
+                    "Biosecurity track, mentored by Gary Abel (Fourth Eon Bio), "
+                    "focused on technical research at the intersection of AI and "
+                    "biosecurity, including function-based DNA synthesis screening.",
                     "normal",
                     True,
                 ),
