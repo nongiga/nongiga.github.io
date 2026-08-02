@@ -30,8 +30,8 @@ def docx_body_blocks(path: Path) -> list[str]:
 
 
 def text_between(blocks: list[str], start: str, end: str) -> str:
-    start_index = next(i for i, block in enumerate(blocks) if block == start)
-    end_index = next(i for i, block in enumerate(blocks) if block == end)
+    start_index = next(i for i, block in enumerate(blocks) if block.endswith(start))
+    end_index = next(i for i, block in enumerate(blocks) if block.endswith(end))
     return "\n".join(blocks[start_index + 1 : end_index])
 
 

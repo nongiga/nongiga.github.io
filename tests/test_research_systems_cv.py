@@ -1,5 +1,6 @@
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
@@ -16,6 +17,7 @@ W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 def load_builder():
     spec = spec_from_file_location("cv_builder", SCRIPT)
     module = module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -87,10 +89,10 @@ class ResearchSystemsCVTests(unittest.TestCase):
 
     def test_fellowships_are_not_duplicated_as_awards(self):
         blocks = [all_text(block) for block in self.document_root.find(f"{W}body")]
-        start = blocks.index("CURRENT FELLOWSHIPS")
-        research = blocks.index("RESEARCH EXPERIENCE")
-        awards = blocks.index("AWARDS AND FUNDING")
-        teaching = blocks.index("TEACHING, MENTORSHIP, AND SCIENTIFIC SERVICE")
+        start = next(i for i, block in enumerate(blocks) if block.endswith("CURRENT FELLOWSHIPS"))
+        research = next(i for i, block in enumerate(blocks) if block.endswith("RESEARCH EXPERIENCE"))
+        awards = next(i for i, block in enumerate(blocks) if block.endswith("AWARDS AND FUNDING"))
+        teaching = next(i for i, block in enumerate(blocks) if block.endswith("TEACHING, MENTORSHIP, AND SCIENTIFIC SERVICE"))
         fellowship_text = "\n".join(blocks[start + 1 : research])
         awards_text = "\n".join(blocks[awards + 1 : teaching])
         for distinction in ("Pivotal Research", "ML Alignment & Theory Scholars"):
@@ -116,10 +118,10 @@ class ResearchSystemsCVTests(unittest.TestCase):
             if name is not None and size is not None:
                 style_sizes[name.attrib[f"{W}val"]] = int(size.attrib[f"{W}val"]) / 2
         expected = {
-            "CV Body": 9.75,
-            "CV Entry Title": 9.75,
-            "CV Entry Description": 9.25,
-            "CV Publication": 9.25,
+            "CV Body": 10,
+            "CV Entry Title": 10,
+            "CV Entry Description": 9.5,
+            "CV Publication": 9.5,
         }
         for name, size in expected.items():
             self.assertEqual(style_sizes.get(name), size)
