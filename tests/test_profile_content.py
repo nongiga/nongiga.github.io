@@ -1,5 +1,6 @@
 from pathlib import Path
 import re
+import subprocess
 import unittest
 import xml.etree.ElementTree as ET
 import zipfile
@@ -124,6 +125,22 @@ class ProfileContentTests(unittest.TestCase):
     def test_public_pdfs_match_and_cache_is_current(self):
         self.assertEqual(PDF_PATHS[0].read_bytes(), PDF_PATHS[1].read_bytes())
         self.assertIn('href="resume.pdf?v=20260802"', self.html)
+
+    def test_public_pdf_contains_confirmed_updates(self):
+        result = subprocess.run(
+            ["pdftotext", str(PDF_PATHS[0]), "-"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        for expected in (
+            "ML Alignment & Theory Scholars (MATS), Autumn 2026",
+            "Pivotal Research Frontier Biodefense Fellow",
+            "CIBB 2026",
+            "ASM BIG 2026",
+            "Noga Aharony CV | August 2026",
+        ):
+            self.assertIn(expected, result.stdout)
 
 
 if __name__ == "__main__":
