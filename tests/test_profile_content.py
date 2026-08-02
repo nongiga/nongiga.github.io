@@ -21,6 +21,19 @@ def docx_text(path: Path) -> str:
     return "\n".join(node.text or "" for node in root.iter(f"{W_NS}t"))
 
 
+def docx_body_blocks(path: Path) -> list[str]:
+    with zipfile.ZipFile(path) as archive:
+        root = ET.fromstring(archive.read("word/document.xml"))
+    body = root.find(f"{W_NS}body")
+    return ["".join(node.text or "" for node in block.iter(f"{W_NS}t")) for block in body]
+
+
+def text_between(blocks: list[str], start: str, end: str) -> str:
+    start_index = next(i for i, block in enumerate(blocks) if block == start)
+    end_index = next(i for i, block in enumerate(blocks) if block == end)
+    return "\n".join(blocks[start_index + 1 : end_index])
+
+
 class ProfileContentTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -63,6 +76,25 @@ class ProfileContentTests(unittest.TestCase):
             "ASM BIG 2026",
         ):
             self.assertIn(expected, text)
+
+    def test_cv_updates_are_in_their_intended_sections(self):
+        blocks = docx_body_blocks(DOCX_PATH)
+        fellowships = text_between(
+            blocks,
+            "CURRENT FELLOWSHIPS AND AFFILIATIONS",
+            "RESEARCH EXPERIENCE",
+        )
+        presentations = text_between(blocks, "POSTERS AND TALKS", "AWARDS AND FUNDING")
+        awards = text_between(
+            blocks,
+            "AWARDS AND FUNDING",
+            "TEACHING, MENTORSHIP, AND SCIENTIFIC SERVICE",
+        )
+        for expected in ("Pivotal Research", "MATS Autumn 2026"):
+            self.assertIn(expected, fellowships)
+            self.assertIn(expected, awards)
+        for expected in ("CIBB 2026", "ASM BIG 2026"):
+            self.assertIn(expected, presentations)
 
     def test_public_pdfs_match_and_cache_is_current(self):
         self.assertEqual(PDF_PATHS[0].read_bytes(), PDF_PATHS[1].read_bytes())
