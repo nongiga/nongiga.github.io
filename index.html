@@ -296,7 +296,15 @@
       transition: color 0.4s;
     }
     .bio-card ul { list-style: none; }
-    .bio-card li { padding: 0.25rem 0; }
+    .bio-card li { position: relative; padding: 0.25rem 0 0.25rem 1rem; }
+    .bio-card li::before {
+      content: '';
+      position: absolute;
+      top: 0.85rem; left: 0;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
     .bio-card li strong { color: var(--text-primary); font-weight: 500; transition: color 0.4s; }
     .bio-card .muted { color: var(--text-tertiary); font-size: 0.8rem; }
 
@@ -532,6 +540,39 @@
     .ext-item a:hover { color: var(--accent); }
     .ext-item span { color: var(--text-muted); font-size: 0.8rem; }
 
+    /* ─── CV ─── */
+    .cv-viewer {
+      display: block;
+      width: 100%; height: 850px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-secondary);
+      box-shadow: var(--shadow-card);
+      transition: var(--transition-theme);
+    }
+    .cv-viewer p { padding: 2rem; color: var(--text-secondary); }
+    .cv-actions {
+      display: flex; flex-wrap: wrap; gap: 0.65rem;
+      margin-top: 1rem;
+    }
+    .cv-actions a {
+      display: inline-flex; align-items: center;
+      padding: 0.55rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-size: 0.8rem; font-weight: 500;
+      box-shadow: var(--shadow-card);
+      transition: all 0.25s;
+    }
+    .cv-actions a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-card-hover);
+    }
+
     /* ─── CONTACT ─── */
     .contact-row {
       display: flex; align-items: center; gap: 3rem;
@@ -601,6 +642,7 @@
       .nav-right { gap: 1rem; }
       .writing-item { grid-template-columns: 1fr; gap: 0.25rem; }
       .writing-expanded-inner { margin-left: 0; padding-left: 1.25rem; }
+      .cv-viewer { height: 600px; }
       .contact-row { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
       .section-title { font-size: 1.8rem; }
@@ -608,6 +650,7 @@
 
     @media (max-width: 500px) {
       .hero-name { font-size: 2.2rem; }
+      .nav-right { gap: 0.75rem; }
       .nav-right a.hide-mobile { display: none; }
     }
   </style>
@@ -620,9 +663,10 @@
   <div class="nav-inner">
     <a href="#" class="nav-name">Noga Aharony</a>
     <div class="nav-right">
-      <a href="#about">About</a>
+      <a href="#about" class="hide-mobile">About</a>
       <a href="#publications">Papers</a>
       <a href="#talks">Talks</a>
+      <a href="#cv">CV</a>
       <a href="#writing">Writing</a>
       <a href="#contact" class="hide-mobile">Contact</a>
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode"></button>
@@ -667,19 +711,30 @@
 <div class="bio-strip">
   <div class="bio-card reveal">
     <h3>Research focus</h3>
-    <p>I study what genome language models learn, where they fail, and how they can be used in microbial genomics and biosurveillance. My work spans genomic context, pathway-level reasoning, metagenomic binning, and detection across evolutionary distance.</p>
+    <ul>
+      <li>Genome language model evaluation</li>
+      <li>Microbial genomics and biosurveillance</li>
+      <li>Metagenomic binning</li>
+      <li>Detection across evolutionary distance</li>
+    </ul>
   </div>
   <div class="bio-card reveal" style="transition-delay: 0.1s">
-    <h3>Current affiliations</h3>
+    <h3>Academic position</h3>
     <ul>
-      <li><strong>PhD candidate, Systems Biology</strong> <span class="muted">Columbia University</span></li>
-      <li><strong>Pivotal Research Frontier Biodefense Fellow</strong> <span class="muted">Aug&ndash;Oct 2026</span></li>
-      <li><strong>ML Alignment &amp; Theory Scholars (MATS), Autumn 2026</strong> <span class="muted">Sep&ndash;Dec 2026</span><br><span class="muted">Biosecurity track &middot; Gary Abel, Fourth Eon Bio</span></li>
+      <li><strong>PhD Candidate in Systems Biology</strong></li>
+      <li>Columbia University</li>
+      <li>AlQuraishi Lab</li>
     </ul>
   </div>
   <div class="bio-card reveal" style="transition-delay: 0.2s">
-    <h3>Selected recognition</h3>
-    <p>Recipient of Open Philanthropy early-career funding, the Miriam and Aaron Gutwirth Memorial Fellowship for Excellence in Research, and the NYC-PRI Innovative Tools and Solutions award.</p>
+    <h3>Fellowships &amp; recognition</h3>
+    <ul>
+      <li><strong>Pivotal Research Frontier Biodefense Fellow</strong> <span class="muted">Aug&ndash;Oct 2026</span></li>
+      <li><strong>ML Alignment &amp; Theory Scholars (MATS), Autumn 2026</strong> <span class="muted">Sep&ndash;Dec 2026</span><br><span class="muted">Biosecurity track &middot; Gary Abel, Fourth Eon Bio</span></li>
+      <li>Open Philanthropy early-career funding</li>
+      <li>Miriam and Aaron Gutwirth Memorial Fellowship for Excellence in Research</li>
+      <li>NYC-PRI Innovative Tools and Solutions Award</li>
+    </ul>
   </div>
 </div>
 
@@ -909,6 +964,20 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ─── CV ─── -->
+<section class="section" id="cv">
+  <div class="section-label reveal">Curriculum vitae</div>
+  <div class="section-title reveal">Academic CV</div>
+  <p class="section-desc reveal">The current August 2026 version, including confirmed fellowships and upcoming presentations.</p>
+  <object class="cv-viewer reveal" data="resume.pdf?v=20260802" type="application/pdf">
+    <p>Your browser cannot display the embedded CV. <a href="resume.pdf?v=20260802" target="_blank">Open the full CV</a>.</p>
+  </object>
+  <div class="cv-actions reveal">
+    <a href="resume.pdf?v=20260802" target="_blank">Open full CV</a>
+    <a href="resume.pdf?v=20260802" download>Download CV</a>
   </div>
 </section>
 

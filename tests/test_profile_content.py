@@ -35,6 +35,17 @@ def text_between(blocks: list[str], start: str, end: str) -> str:
     return "\n".join(blocks[start_index + 1 : end_index])
 
 
+def profile_card(html: str, heading: str) -> str:
+    match = re.search(
+        rf'<div class="bio-card[^>]*>\s*<h3>{re.escape(heading)}</h3>(.*?)</div>',
+        html,
+        re.DOTALL,
+    )
+    if match is None:
+        raise AssertionError(f"Missing profile card: {heading}")
+    return match.group(1)
+
+
 class ProfileContentTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -42,7 +53,6 @@ class ProfileContentTests(unittest.TestCase):
 
     def test_research_first_profile_and_affiliations(self):
         self.assertIn("evaluating and applying genome language models", self.html)
-        self.assertIn("Current affiliations", self.html)
         self.assertIn("ML Alignment &amp; Theory Scholars (MATS), Autumn 2026", self.html)
         self.assertIn("Biosecurity track", self.html)
         self.assertIn("Gary Abel, Fourth Eon Bio", self.html)
@@ -50,6 +60,38 @@ class ProfileContentTests(unittest.TestCase):
         self.assertNotIn("Incoming Fellow", self.html)
         for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan"):
             self.assertNotIn(incorrect, self.html)
+
+    def test_profile_cards_are_point_form_and_separate_fellowships(self):
+        research = profile_card(self.html, "Research focus")
+        position = profile_card(self.html, "Academic position")
+        recognition = profile_card(self.html, "Fellowships &amp; recognition")
+        for card in (research, position, recognition):
+            self.assertIn("<ul>", card)
+            self.assertIn("<li>", card)
+        self.assertIn("PhD Candidate in Systems Biology", position)
+        self.assertNotIn("Pivotal Research", position)
+        self.assertNotIn("MATS", position)
+        self.assertNotIn("PhD Candidate", recognition)
+        self.assertIn("Pivotal Research Frontier Biodefense Fellow", recognition)
+        self.assertIn(
+            "ML Alignment &amp; Theory Scholars (MATS), Autumn 2026",
+            recognition,
+        )
+
+    def test_current_cv_is_visible_and_downloadable(self):
+        self.assertIn('<a href="#cv">CV</a>', self.html)
+        cv = re.search(
+            r'<section class="section" id="cv">(.*?)</section>',
+            self.html,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(cv)
+        self.assertIn('data="resume.pdf?v=20260802"', cv.group(1))
+        self.assertIn(
+            'href="resume.pdf?v=20260802" target="_blank"',
+            cv.group(1),
+        )
+        self.assertIn('href="resume.pdf?v=20260802" download', cv.group(1))
 
     def test_upcoming_presentations_are_confirmed_only(self):
         upcoming = re.search(
