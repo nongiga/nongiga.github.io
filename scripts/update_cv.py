@@ -6,6 +6,7 @@ from pathlib import Path
 from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from docx.shared import Inches, Pt
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -215,6 +216,36 @@ def keep_headings_with_content(document: Document):
             paragraph.paragraph_format.keep_with_next = True
 
 
+def prepare_three_page_layout(document: Document):
+    section = document.sections[0]
+    section.top_margin = Inches(0.55)
+    section.bottom_margin = Inches(0.55)
+
+    for table in document.tables:
+        for row in table.rows:
+            row_properties = row._tr.get_or_add_trPr()
+            if row_properties.find(qn("w:cantSplit")) is None:
+                row_properties.append(OxmlElement("w:cantSplit"))
+            for cell_index, cell in enumerate(row.cells):
+                for paragraph in cell.paragraphs:
+                    paragraph.paragraph_format.space_after = Pt(1)
+                    if cell_index == 1:
+                        for run in paragraph.runs:
+                            if run.font.size is not None and run.font.size > Pt(8.5):
+                                run.font.size = Pt(8.5)
+
+
+def update_footer(document: Document):
+    footer = document.sections[0].footer
+    paragraph = footer.paragraphs[0]
+    if paragraph.runs:
+        paragraph.runs[0].text = "Noga Aharony CV | August 2026"
+        for run in paragraph.runs[1:]:
+            run.text = ""
+    else:
+        paragraph.add_run("Noga Aharony CV | August 2026")
+
+
 def main():
     document = Document(SOURCE)
     document.paragraphs[3].text = PROFILE
@@ -222,6 +253,8 @@ def main():
     update_presentations(document)
     update_awards(document)
     keep_headings_with_content(document)
+    prepare_three_page_layout(document)
+    update_footer(document)
     document.save(DESTINATION)
     print(f"Created {DESTINATION.name}")
 

@@ -102,6 +102,25 @@ class ProfileContentTests(unittest.TestCase):
         for expected in ("CIBB 2026", "ASM BIG 2026"):
             self.assertIn(expected, presentations)
 
+    def test_cv_footer_and_rows_are_publication_ready(self):
+        with zipfile.ZipFile(DOCX_PATH) as archive:
+            footer_names = [
+                name for name in archive.namelist() if name.startswith("word/footer")
+            ]
+            footer_text = "".join(
+                node.text or ""
+                for name in footer_names
+                for node in ET.fromstring(archive.read(name)).iter(f"{W_NS}t")
+            )
+            document = ET.fromstring(archive.read("word/document.xml"))
+        self.assertIn("Noga Aharony CV | August 2026", footer_text)
+        rows = list(document.iter(f"{W_NS}tr"))
+        self.assertTrue(rows)
+        for row in rows:
+            properties = row.find(f"{W_NS}trPr")
+            self.assertIsNotNone(properties)
+            self.assertIsNotNone(properties.find(f"{W_NS}cantSplit"))
+
     def test_public_pdfs_match_and_cache_is_current(self):
         self.assertEqual(PDF_PATHS[0].read_bytes(), PDF_PATHS[1].read_bytes())
         self.assertIn('href="resume.pdf?v=20260802"', self.html)
