@@ -145,7 +145,7 @@ class ProfileContentTests(unittest.TestCase):
         )
         for expected in ("Pivotal Research", "ML Alignment & Theory Scholars"):
             self.assertIn(expected, fellowships)
-            self.assertIn(expected, awards)
+            self.assertNotIn(expected, awards)
         for expected in ("CIBB 2026", "ASM BIG 2026"):
             self.assertIn(expected, presentations)
 
@@ -160,7 +160,7 @@ class ProfileContentTests(unittest.TestCase):
                 for node in ET.fromstring(archive.read(name)).iter(f"{W_NS}t")
             )
             document = ET.fromstring(archive.read("word/document.xml"))
-        self.assertIn("Noga Aharony CV | August 2026", footer_text)
+        self.assertIn("Noga Aharony · Curriculum Vitae · August 2026", footer_text)
         rows = list(document.iter(f"{W_NS}tr"))
         self.assertTrue(rows)
         for row in rows:
@@ -188,7 +188,7 @@ class ProfileContentTests(unittest.TestCase):
             "Pivotal Research Frontier Biodefense Fellow",
             "CIBB 2026",
             "ASM BIG 2026",
-            "Noga Aharony CV | August 2026",
+            "Noga Aharony · Curriculum Vitae · August 2026",
         ):
             self.assertIn(expected, pdf_text)
         for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan"):
