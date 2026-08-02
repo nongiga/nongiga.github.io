@@ -55,7 +55,7 @@ class ProfileContentTests(unittest.TestCase):
         self.assertIn("evaluating and applying genome language models", self.html)
         self.assertIn("ML Alignment &amp; Theory Scholars (MATS), Autumn 2026", self.html)
         self.assertIn("Biosecurity track", self.html)
-        self.assertIn("Gary Abel, Fourth Eon Bio", self.html)
+        self.assertIn("Gary Abel at Fourth Eon Bio", self.html)
         self.assertIn("Pivotal Research Frontier Biodefense Fellow", self.html)
         self.assertNotIn("Incoming Fellow", self.html)
         for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan"):
@@ -77,6 +77,17 @@ class ProfileContentTests(unittest.TestCase):
             "ML Alignment &amp; Theory Scholars (MATS), Autumn 2026",
             recognition,
         )
+
+    def test_fellowship_recognition_items_share_one_semantic_line(self):
+        recognition = profile_card(self.html, "Fellowships &amp; recognition")
+        items = re.findall(r"<li>(.*?)</li>", recognition, re.DOTALL)
+        self.assertEqual(len(items), 5)
+        for item in items:
+            self.assertNotIn("<br>", item)
+            self.assertRegex(
+                item,
+                r"^<strong>.+?</strong> <span class=\"muted\">&middot; .+?</span>$",
+            )
 
     def test_current_cv_is_visible_and_downloadable(self):
         self.assertIn('<a href="#cv">CV</a>', self.html)
@@ -122,7 +133,7 @@ class ProfileContentTests(unittest.TestCase):
             "Gary Abel",
             "Fourth Eon Bio",
             "function-based DNA synthesis screening",
-            "Pivotal Research Frontier Biodefense Fellowship",
+            "Pivotal Research Frontier Biodefense Fellow",
             "CIBB 2026",
             "ASM BIG 2026",
         ):
