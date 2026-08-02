@@ -10,3 +10,7 @@ node_modules/
 # Codex isolated worktrees
 .worktrees/
 .superpowers/
+
+# Generated CV working files
+Noga_Aharony_CV_Academic_August_2026_candidate.docx
+**/__pycache__/

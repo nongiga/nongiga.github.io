@@ -27,6 +27,8 @@ METADATA = "6D7982"
 RULE = "D2D7DB"
 WHITE = "FFFFFF"
 DEEP_SLATE = "1D2C3B"
+PRIMARY_FONT = "Arial"
+METADATA_FONT = "Courier New"
 
 USABLE_WIDTH = 10368
 SECTION_INDEX_WIDTH = 548
@@ -311,10 +313,10 @@ def set_run_font(run, font: str, size: float, color: str, *, bold=False, italic=
     fonts = run._r.get_or_add_rPr().rFonts
     fonts.set(qn("w:ascii"), font)
     fonts.set(qn("w:hAnsi"), font)
-    fonts.set(qn("w:cs"), "Arial" if font == "Helvetica Neue" else "Courier New")
+    fonts.set(qn("w:cs"), font)
 
 
-def define_style(document, name: str, size: float, color: str, *, font="Helvetica Neue", bold=False):
+def define_style(document, name: str, size: float, color: str, *, font=PRIMARY_FONT, bold=False):
     style = document.styles.add_style(name, 1)
     style.font.name = font
     style.font.size = Pt(size)
@@ -322,7 +324,7 @@ def define_style(document, name: str, size: float, color: str, *, font="Helvetic
     style.font.color.rgb = RGBColor.from_string(color)
     style._element.get_or_add_rPr().rFonts.set(qn("w:ascii"), font)
     style._element.get_or_add_rPr().rFonts.set(qn("w:hAnsi"), font)
-    style._element.get_or_add_rPr().rFonts.set(qn("w:cs"), "Arial" if font == "Helvetica Neue" else "Courier New")
+    style._element.get_or_add_rPr().rFonts.set(qn("w:cs"), font)
     fmt = style.paragraph_format
     fmt.space_before = Pt(0)
     fmt.space_after = Pt(2.5)
@@ -333,7 +335,7 @@ def define_style(document, name: str, size: float, color: str, *, font="Helvetic
 
 def configure_styles(document: Document) -> None:
     normal = document.styles["Normal"]
-    normal.font.name = "Helvetica Neue"
+    normal.font.name = PRIMARY_FONT
     normal.font.size = Pt(9.75)
     normal.font.color.rgb = RGBColor.from_string(CHARCOAL)
     normal.paragraph_format.space_after = Pt(2.5)
@@ -345,14 +347,14 @@ def configure_styles(document: Document) -> None:
     define_style(document, "CV Role", 9, SECONDARY)
     define_style(document, "CV Contact", 8, SECONDARY)
     define_style(document, "CV Section Title", 11, CHARCOAL, bold=True)
-    define_style(document, "CV Section Index", 7.5, VERMILION, font="Menlo", bold=True)
+    define_style(document, "CV Section Index", 7.5, VERMILION, font=METADATA_FONT, bold=True)
     define_style(document, "CV Entry Title", 10, CHARCOAL, bold=True)
     define_style(document, "CV Entry Context", 8.75, SECONDARY)
     define_style(document, "CV Entry Description", 9.5, CHARCOAL)
-    define_style(document, "CV Date", 8, METADATA, font="Menlo")
-    define_style(document, "CV Output ID", 7.5, COBALT, font="Menlo", bold=True)
+    define_style(document, "CV Date", 8, METADATA, font=METADATA_FONT)
+    define_style(document, "CV Output ID", 7.5, COBALT, font=METADATA_FONT, bold=True)
     define_style(document, "CV Publication", 9.5, CHARCOAL)
-    define_style(document, "CV Footer", 7.5, METADATA, font="Menlo")
+    define_style(document, "CV Footer", 7.5, METADATA, font=METADATA_FONT)
 
 
 def remove_default_paragraph(cell) -> None:
@@ -375,8 +377,8 @@ def add_hyperlink(paragraph, label: str, url: str):
     color.set(qn("w:val"), COBALT)
     properties.append(color)
     fonts = OxmlElement("w:rFonts")
-    fonts.set(qn("w:ascii"), "Helvetica Neue")
-    fonts.set(qn("w:hAnsi"), "Helvetica Neue")
+    fonts.set(qn("w:ascii"), PRIMARY_FONT)
+    fonts.set(qn("w:hAnsi"), PRIMARY_FONT)
     properties.append(fonts)
     size = OxmlElement("w:sz")
     size.set(qn("w:val"), "16")
@@ -463,7 +465,7 @@ def add_research_band(document: Document) -> None:
     label = cells[0].paragraphs[0]
     label.paragraph_format.space_after = Pt(0)
     run = label.add_run("RESEARCH\nSYSTEMS")
-    set_run_font(run, "Menlo", 7.5, WHITE, bold=True)
+    set_run_font(run, METADATA_FONT, 7.5, WHITE, bold=True)
     threads = (
         ("Evaluate", "Model behavior", "What do genome language models learn, use, and fail to capture?"),
         ("Transfer", "Microbial genomics", "When do representations remain useful under realistic distribution shifts?"),
@@ -473,7 +475,7 @@ def add_research_band(document: Document) -> None:
         paragraph = cell.paragraphs[0]
         paragraph.paragraph_format.space_after = Pt(1)
         run = paragraph.add_run(action)
-        set_run_font(run, "Menlo", 7.5, VERMILION, bold=True)
+        set_run_font(run, METADATA_FONT, 7.5, VERMILION, bold=True)
         domain_p = cell.add_paragraph(style="CV Entry Context")
         domain_p.paragraph_format.space_after = Pt(2)
         domain_run = domain_p.add_run(domain)
@@ -543,7 +545,7 @@ def add_publication(document: Document, number: int, publication: Publication) -
     paragraph.style = "CV Publication"
     paragraph.paragraph_format.space_after = Pt(0)
     identifier = paragraph.add_run(f"P{number:02d}  ")
-    set_run_font(identifier, "Menlo", 7.5, COBALT, bold=True)
+    set_run_font(identifier, METADATA_FONT, 7.5, COBALT, bold=True)
     remaining = publication.authors
     while "Aharony N" in remaining:
         before, remaining = remaining.split("Aharony N", 1)
@@ -566,58 +568,7 @@ def add_page_break(document: Document) -> None:
     paragraph.add_run().add_break(WD_BREAK.PAGE)
 
 
-def configure_running_furniture(document: Document) -> None:
-    section = document.sections[0]
-    section.different_first_page_header_footer = True
-
-    first_footer = section.first_page_footer
-    table = first_footer.add_table(rows=1, cols=2, width=Inches(7.2))
-    set_table_geometry(table, [8200, 2168])
-    prevent_row_split(table.rows[0])
-    for cell in table.rows[0].cells:
-        set_cell_margins(cell, top=0, start=0, bottom=0, end=0)
-        remove_default_paragraph(cell)
-    left, right = (cell.paragraphs[0] for cell in table.rows[0].cells)
-    left.style = "CV Footer"
-    left.add_run("Noga Aharony · Curriculum Vitae · August 2026")
-    right.style = "CV Footer"
-    right.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    right.add_run("01 / 03")
-
-    header = section.header
-    table = header.add_table(rows=1, cols=2, width=Inches(7.2))
-    set_table_geometry(table, [5184, 5184])
-    prevent_row_split(table.rows[0])
-    for cell in table.rows[0].cells:
-        set_cell_margins(cell, top=0, start=0, bottom=0, end=0)
-        remove_default_paragraph(cell)
-    left, right = (cell.paragraphs[0] for cell in table.rows[0].cells)
-    left.style = "CV Footer"
-    left.add_run("Noga Aharony")
-    right.style = "CV Footer"
-    right.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    right.add_run("Curriculum Vitae · August 2026")
-
-    footer = section.footer
-    table = footer.add_table(rows=1, cols=2, width=Inches(7.2))
-    set_table_geometry(table, [8200, 2168])
-    prevent_row_split(table.rows[0])
-    for cell in table.rows[0].cells:
-        set_cell_margins(cell, top=0, start=0, bottom=0, end=0)
-        remove_default_paragraph(cell)
-    left, right = (cell.paragraphs[0] for cell in table.rows[0].cells)
-    left.style = "CV Footer"
-    left.add_run("Noga Aharony · Curriculum Vitae · August 2026")
-    right.style = "CV Footer"
-    right.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    add_field(right, "PAGE")
-    right.add_run(" / 03")
-
-
-def build_document(output_path: Path) -> Path:
-    document = Document()
-    section = document.sections[0]
-    section.start_type = WD_SECTION.NEW_PAGE
+def configure_page_geometry(section) -> None:
     section.page_width = Inches(8.5)
     section.page_height = Inches(11)
     section.top_margin = Inches(0.55)
@@ -626,42 +577,109 @@ def build_document(output_path: Path) -> Path:
     section.right_margin = Inches(0.65)
     section.header_distance = Inches(0.30)
     section.footer_distance = Inches(0.30)
+
+
+def configure_first_page_footer(section) -> None:
+    section.different_first_page_header_footer = False
+    footer = section.footer
+    footer.is_linked_to_previous = False
+    add_footer_table(footer, page_text="01 / 03")
+
+
+def add_footer_table(footer, *, page_text: str | None = None, page_field=False) -> None:
+    spacer = footer.paragraphs[0]
+    spacer.clear()
+    spacer.paragraph_format.space_after = Pt(0)
+    spacer.paragraph_format.line_spacing = 0.1
+    table = footer.add_table(rows=1, cols=2, width=Inches(7.2))
+    # Keep footer furniture slightly inside the body width; LibreOffice can
+    # otherwise clip the final glyphs on a densely filled page.
+    set_table_geometry(table, [8000, 2000])
+    prevent_row_split(table.rows[0])
+    for cell in table.rows[0].cells:
+        set_cell_margins(cell, top=0, start=0, bottom=0, end=0)
+        remove_default_paragraph(cell)
+    left, right = (cell.paragraphs[0] for cell in table.rows[0].cells)
+    left.style = "CV Footer"
+    left.add_run("Noga Aharony · Curriculum Vitae · August 2026")
+    right.style = "CV Footer"
+    right.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    if page_field:
+        add_field(right, "PAGE")
+        right.add_run(" / 03")
+    else:
+        right.add_run(page_text or "")
+
+
+def configure_running_section(section, page_text: str) -> None:
+    section.different_first_page_header_footer = False
+    header = section.header
+    header.is_linked_to_previous = False
+    running_header = header.paragraphs[0]
+    running_header.clear()
+    running_header.style = "CV Footer"
+    running_header.paragraph_format.tab_stops.add_tab_stop(Inches(7.2), WD_ALIGN_PARAGRAPH.RIGHT)
+    running_header.add_run("Noga Aharony")
+    running_header.add_run("\tCurriculum Vitae · August 2026")
+
+    footer = section.footer
+    footer.is_linked_to_previous = False
+    add_footer_table(footer, page_text=page_text)
+
+
+def build_document(output_path: Path) -> Path:
+    document = Document()
+    section = document.sections[0]
+    section.start_type = WD_SECTION.NEW_PAGE
+    configure_page_geometry(section)
     configure_styles(document)
-    configure_running_furniture(document)
+    configure_first_page_footer(section)
 
     add_identity(document)
     add_research_band(document)
-    add_section_heading(document, 1, "EDUCATION")
+    add_section_heading(document, 1, "Education")
     for entry in EDUCATION:
         add_entry(document, entry, compact=True)
-    add_section_heading(document, 2, "CURRENT FELLOWSHIPS")
+    add_section_heading(document, 2, "Current fellowships")
     for entry in CURRENT_FELLOWSHIPS:
         add_entry(document, entry, compact=True)
-    add_section_heading(document, 3, "RESEARCH EXPERIENCE")
-    for entry in RESEARCH_EXPERIENCE:
+    add_section_heading(document, 3, "Research experience")
+    for entry in RESEARCH_EXPERIENCE[:6]:
         add_entry(document, entry, compact=True)
 
-    add_page_break(document)
-    add_section_heading(document, 4, "PUBLICATIONS AND MANUSCRIPTS")
+    continuation = document.add_section(WD_SECTION.NEW_PAGE)
+    configure_page_geometry(continuation)
+    configure_running_section(continuation, "02 / 03")
+    add_section_heading(document, 3, "Research experience · continued")
+    for entry in RESEARCH_EXPERIENCE[6:]:
+        add_entry(document, entry, compact=True)
+
+    add_section_heading(document, 4, "Publications and manuscripts")
     for number, publication in enumerate(PUBLICATIONS, 1):
         add_publication(document, number, publication)
     note = document.add_paragraph("* Equal contribution.", style="CV Entry Context")
     note.paragraph_format.left_indent = Inches(0.38)
-    add_section_heading(document, 5, "POSTERS AND TALKS")
-    for entry in PRESENTATIONS:
+    add_section_heading(document, 5, "Posters and talks")
+    for entry in PRESENTATIONS[:7]:
         add_entry(document, entry, compact=True)
 
-    add_page_break(document)
-    add_section_heading(document, 6, "AWARDS AND FUNDING")
+    final_page = document.add_section(WD_SECTION.NEW_PAGE)
+    configure_page_geometry(final_page)
+    configure_running_section(final_page, "03 / 03")
+    add_section_heading(document, 5, "Posters and talks · continued")
+    for entry in PRESENTATIONS[7:]:
+        add_entry(document, entry, compact=True)
+
+    add_section_heading(document, 6, "Awards and funding")
     for entry in AWARDS:
         add_entry(document, entry, compact=True)
-    add_section_heading(document, 7, "TEACHING, MENTORSHIP, AND SCIENTIFIC SERVICE")
+    add_section_heading(document, 7, "Teaching, mentorship, and scientific service")
     for entry in TEACHING_SERVICE:
         add_entry(document, entry, compact=True)
-    add_section_heading(document, 8, "TECHNICAL AND EXPERIMENTAL METHODS")
+    add_section_heading(document, 8, "Technical and experimental methods")
     for entry in METHODS:
         add_entry(document, entry, compact=True)
-    add_section_heading(document, 9, "LANGUAGES")
+    add_section_heading(document, 9, "Languages")
     for entry in LANGUAGES:
         add_entry(document, entry, compact=True)
 

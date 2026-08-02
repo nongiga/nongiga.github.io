@@ -116,7 +116,7 @@ class ProfileContentTests(unittest.TestCase):
     def test_cv_source_contains_confirmed_updates(self):
         text = docx_text(DOCX_PATH)
         for expected in (
-            "CURRENT FELLOWSHIPS AND AFFILIATIONS",
+            "Current fellowships",
             "ML Alignment & Theory Scholars (MATS), Autumn 2026",
             "Biosecurity track",
             "Gary Abel",
@@ -134,14 +134,14 @@ class ProfileContentTests(unittest.TestCase):
         blocks = docx_body_blocks(DOCX_PATH)
         fellowships = text_between(
             blocks,
-            "CURRENT FELLOWSHIPS AND AFFILIATIONS",
-            "RESEARCH EXPERIENCE",
+            "Current fellowships",
+            "Research experience",
         )
-        presentations = text_between(blocks, "POSTERS AND TALKS", "AWARDS AND FUNDING")
+        presentations = text_between(blocks, "Posters and talks", "Awards and funding")
         awards = text_between(
             blocks,
-            "AWARDS AND FUNDING",
-            "TEACHING, MENTORSHIP, AND SCIENTIFIC SERVICE",
+            "Awards and funding",
+            "Teaching, mentorship, and scientific service",
         )
         for expected in ("Pivotal Research", "ML Alignment & Theory Scholars"):
             self.assertIn(expected, fellowships)

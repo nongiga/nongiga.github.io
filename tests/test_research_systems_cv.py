@@ -74,25 +74,25 @@ class ResearchSystemsCVTests(unittest.TestCase):
             self.assertNotIn(prohibited, text)
 
         headings = [
-            "EDUCATION",
-            "CURRENT FELLOWSHIPS",
-            "RESEARCH EXPERIENCE",
-            "PUBLICATIONS AND MANUSCRIPTS",
-            "POSTERS AND TALKS",
-            "AWARDS AND FUNDING",
-            "TEACHING, MENTORSHIP, AND SCIENTIFIC SERVICE",
-            "TECHNICAL AND EXPERIMENTAL METHODS",
-            "LANGUAGES",
+            "Education",
+            "Current fellowships",
+            "Research experience",
+            "Publications and manuscripts",
+            "Posters and talks",
+            "Awards and funding",
+            "Teaching, mentorship, and scientific service",
+            "Technical and experimental methods",
+            "Languages",
         ]
         positions = [text.index(heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))
 
     def test_fellowships_are_not_duplicated_as_awards(self):
         blocks = [all_text(block) for block in self.document_root.find(f"{W}body")]
-        start = next(i for i, block in enumerate(blocks) if block.endswith("CURRENT FELLOWSHIPS"))
-        research = next(i for i, block in enumerate(blocks) if block.endswith("RESEARCH EXPERIENCE"))
-        awards = next(i for i, block in enumerate(blocks) if block.endswith("AWARDS AND FUNDING"))
-        teaching = next(i for i, block in enumerate(blocks) if block.endswith("TEACHING, MENTORSHIP, AND SCIENTIFIC SERVICE"))
+        start = next(i for i, block in enumerate(blocks) if block.endswith("Current fellowships"))
+        research = next(i for i, block in enumerate(blocks) if block.endswith("Research experience"))
+        awards = next(i for i, block in enumerate(blocks) if block.endswith("Awards and funding"))
+        teaching = next(i for i, block in enumerate(blocks) if block.endswith("Teaching, mentorship, and scientific service"))
         fellowship_text = "\n".join(blocks[start + 1 : research])
         awards_text = "\n".join(blocks[awards + 1 : teaching])
         for distinction in ("Pivotal Research", "ML Alignment & Theory Scholars"):
