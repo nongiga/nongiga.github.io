@@ -127,9 +127,11 @@ def insert_fellowships_section(document: Document):
             template_row,
             "Sep–Dec 2026",
             [
-                ("MATS Autumn 2026", "bold"),
+                ("ML Alignment & Theory Scholars (MATS), Autumn 2026", "bold"),
                 (
-                    "Participant in the Ralston/Petty Founding & Field-Building stream.",
+                    "Biosecurity stream in the Founding & Field-Building track, "
+                    "mentored by Geoff Ralston and Charlie Petty; working on the "
+                    "Bio Action Plan for catastrophic biological risk in the age of AI.",
                     "normal",
                     True,
                 ),
@@ -196,7 +198,7 @@ def update_awards(document: Document):
     mats = clone_row(
         template_row,
         "2026",
-        [("MATS Autumn 2026.", "normal")],
+        [("ML Alignment & Theory Scholars (MATS) Program, Autumn 2026.", "normal")],
     )
     pivotal = clone_row(
         template_row,

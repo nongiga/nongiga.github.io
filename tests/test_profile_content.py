@@ -42,7 +42,11 @@ class ProfileContentTests(unittest.TestCase):
     def test_research_first_profile_and_affiliations(self):
         self.assertIn("evaluating and applying genome language models", self.html)
         self.assertIn("Current affiliations", self.html)
-        self.assertIn("MATS Autumn 2026", self.html)
+        self.assertIn("ML Alignment &amp; Theory Scholars (MATS), Autumn 2026", self.html)
+        self.assertIn(
+            "Biosecurity stream, Founding &amp; Field-Building track",
+            self.html,
+        )
         self.assertIn("Pivotal Research Frontier Biodefense Fellow", self.html)
         self.assertNotIn("Incoming Fellow", self.html)
 
@@ -70,7 +74,9 @@ class ProfileContentTests(unittest.TestCase):
         text = docx_text(DOCX_PATH)
         for expected in (
             "CURRENT FELLOWSHIPS AND AFFILIATIONS",
-            "MATS Autumn 2026",
+            "ML Alignment & Theory Scholars (MATS), Autumn 2026",
+            "Biosecurity stream in the Founding & Field-Building track",
+            "Geoff Ralston and Charlie Petty",
             "Pivotal Research Frontier Biodefense Fellowship",
             "CIBB 2026",
             "ASM BIG 2026",
@@ -90,7 +96,7 @@ class ProfileContentTests(unittest.TestCase):
             "AWARDS AND FUNDING",
             "TEACHING, MENTORSHIP, AND SCIENTIFIC SERVICE",
         )
-        for expected in ("Pivotal Research", "MATS Autumn 2026"):
+        for expected in ("Pivotal Research", "ML Alignment & Theory Scholars"):
             self.assertIn(expected, fellowships)
             self.assertIn(expected, awards)
         for expected in ("CIBB 2026", "ASM BIG 2026"):
