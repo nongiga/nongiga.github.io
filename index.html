@@ -540,39 +540,6 @@
     .ext-item a:hover { color: var(--accent); }
     .ext-item span { color: var(--text-muted); font-size: 0.8rem; }
 
-    /* ─── CV ─── */
-    .cv-viewer {
-      display: block;
-      width: 100%; height: 850px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg-secondary);
-      box-shadow: var(--shadow-card);
-      transition: var(--transition-theme);
-    }
-    .cv-viewer p { padding: 2rem; color: var(--text-secondary); }
-    .cv-actions {
-      display: flex; flex-wrap: wrap; gap: 0.65rem;
-      margin-top: 1rem;
-    }
-    .cv-actions a {
-      display: inline-flex; align-items: center;
-      padding: 0.55rem 0.9rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg-secondary);
-      color: var(--text-secondary);
-      font-size: 0.8rem; font-weight: 500;
-      box-shadow: var(--shadow-card);
-      transition: all 0.25s;
-    }
-    .cv-actions a:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-card-hover);
-    }
-
     /* ─── CONTACT ─── */
     .contact-row {
       display: flex; align-items: center; gap: 3rem;
@@ -642,7 +609,6 @@
       .nav-right { gap: 1rem; }
       .writing-item { grid-template-columns: 1fr; gap: 0.25rem; }
       .writing-expanded-inner { margin-left: 0; padding-left: 1.25rem; }
-      .cv-viewer { height: 600px; }
       .contact-row { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
       .section-title { font-size: 1.8rem; }
@@ -666,7 +632,7 @@
       <a href="#about" class="hide-mobile">About</a>
       <a href="#publications">Papers</a>
       <a href="#talks">Talks</a>
-      <a href="#cv">CV</a>
+      <a href="resume.pdf?v=20260802" target="_blank">CV</a>
       <a href="#writing">Writing</a>
       <a href="#contact" class="hide-mobile">Contact</a>
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode"></button>
@@ -967,20 +933,6 @@
   </div>
 </section>
 
-<!-- ─── CV ─── -->
-<section class="section" id="cv">
-  <div class="section-label reveal">Curriculum vitae</div>
-  <div class="section-title reveal">Academic CV</div>
-  <p class="section-desc reveal">The current August 2026 version, including confirmed fellowships and upcoming presentations.</p>
-  <object class="cv-viewer reveal" data="resume.pdf?v=20260802" type="application/pdf">
-    <p>Your browser cannot display the embedded CV. <a href="resume.pdf?v=20260802" target="_blank">Open the full CV</a>.</p>
-  </object>
-  <div class="cv-actions reveal">
-    <a href="resume.pdf?v=20260802" target="_blank">Open full CV</a>
-    <a href="resume.pdf?v=20260802" download>Download CV</a>
-  </div>
-</section>
-
 <!-- ─── WRITING ─── -->
 <section class="section" id="writing">
   <div class="section-label reveal">Blog</div>
@@ -1080,10 +1032,10 @@
   <div class="section-title reveal">Contact</div>
   <div class="contact-row reveal" style="margin-top: 1.5rem">
     <div class="contact-text">
-      Reach me at <a href="mailto:noga.aharony@columbia.edu">noga.aharony@columbia.edu</a>.
+      Reach me at <a href="mailto:contact@noga.science">contact@noga.science</a>.
     </div>
     <div class="contact-links">
-      <a href="mailto:noga.aharony@columbia.edu" aria-label="Email">
+      <a href="mailto:contact@noga.science" aria-label="Email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
       </a>
       <a href="https://scholar.google.com/citations?user=nVw6rmsAAAAJ&hl=en" target="_blank" aria-label="Scholar">

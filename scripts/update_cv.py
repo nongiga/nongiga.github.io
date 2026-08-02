@@ -441,7 +441,7 @@ def add_identity(document: Document) -> None:
     border.set(qn("w:color"), COBALT)
     top_border.append(border)
     contact._p.get_or_add_pPr().append(top_border)
-    add_hyperlink(contact, "email", "mailto:noga.aharony@columbia.edu")
+    add_hyperlink(contact, "contact@noga.science", "mailto:contact@noga.science")
     contact.add_run("  ·  ")
     add_hyperlink(contact, "website", "https://noga.science")
     contact2 = right.add_paragraph(style="CV Contact")

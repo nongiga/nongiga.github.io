@@ -61,6 +61,24 @@ class ProfileContentTests(unittest.TestCase):
         for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan"):
             self.assertNotIn(incorrect, self.html)
 
+    def test_public_contact_address_is_current(self):
+        self.assertIn("contact@noga.science", self.html)
+        self.assertIn('href="mailto:contact@noga.science"', self.html)
+        self.assertNotIn("noga.aharony@columbia.edu", self.html)
+
+        docx = docx_text(DOCX_PATH)
+        self.assertIn("contact@noga.science", docx)
+        self.assertNotIn("noga.aharony@columbia.edu", docx)
+
+        pdf = subprocess.run(
+            ["pdftotext", str(PDF_PATHS[0]), "-"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout
+        self.assertIn("contact@noga.science", pdf)
+        self.assertNotIn("noga.aharony@columbia.edu", pdf)
+
     def test_profile_cards_are_point_form_and_separate_fellowships(self):
         research = profile_card(self.html, "Research focus")
         position = profile_card(self.html, "Academic position")
@@ -89,20 +107,18 @@ class ProfileContentTests(unittest.TestCase):
                 r"^<strong>.+?</strong> <span class=\"muted\">&middot; .+?</span>$",
             )
 
-    def test_current_cv_is_visible_and_downloadable(self):
-        self.assertIn('<a href="#cv">CV</a>', self.html)
-        cv = re.search(
-            r'<section class="section" id="cv">(.*?)</section>',
-            self.html,
-            re.DOTALL,
-        )
-        self.assertIsNotNone(cv)
-        self.assertIn('data="resume.pdf?v=20260802"', cv.group(1))
+    def test_current_cv_opens_as_its_own_page(self):
+        self.assertNotIn('id="cv"', self.html)
+        self.assertNotIn('class="cv-viewer', self.html)
+        self.assertNotIn('<object', self.html)
         self.assertIn(
-            'href="resume.pdf?v=20260802" target="_blank"',
-            cv.group(1),
+            '<a href="resume.pdf?v=20260802" target="_blank">CV</a>',
+            self.html,
         )
-        self.assertIn('href="resume.pdf?v=20260802" download', cv.group(1))
+        self.assertGreaterEqual(
+            self.html.count('href="resume.pdf?v=20260802" target="_blank"'),
+            2,
+        )
 
     def test_upcoming_presentations_are_confirmed_only(self):
         upcoming = re.search(
