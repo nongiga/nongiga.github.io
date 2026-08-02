@@ -79,6 +79,18 @@ class ProfileContentTests(unittest.TestCase):
         self.assertIn("contact@noga.science", pdf)
         self.assertNotIn("noga.aharony@columbia.edu", pdf)
 
+    def test_iclr_workshop_paper_is_not_listed(self):
+        removed_title = "ICLR 2022 Challenge for Computational Geometry"
+        self.assertNotIn(removed_title, self.html)
+        self.assertNotIn(removed_title, docx_text(DOCX_PATH))
+        pdf = subprocess.run(
+            ["pdftotext", str(PDF_PATHS[0]), "-"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout
+        self.assertNotIn(removed_title, pdf)
+
     def test_profile_cards_are_point_form_and_separate_fellowships(self):
         research = profile_card(self.html, "Research focus")
         position = profile_card(self.html, "Academic position")
@@ -103,8 +115,8 @@ class ProfileContentTests(unittest.TestCase):
             items,
             [
                 "Machine learning for biology",
+                "Evaluation and interpretability",
                 "Microbial genomics",
-                "Biosurveillance",
             ],
         )
 

@@ -145,12 +145,6 @@ PUBLICATIONS = (
         "Health Security, 21(1), 34–45.",
     ),
     Publication(
-        "2022",
-        "Myers A, Utpala S, Talbar S, Sanborn S, Shewmake C, Donnat C, Mathe J, Lupo U, Sonthalia R, Cui X, Szwagier T, Pignet A, Bergsson A, Hauberg S, Nielson D, Sommer S, Klindt D, Hermansen E, Vaupel M, Dunn B, Xiong J, Aharony N, Pe’er I, Ambellan F, Hanik M, Nava-Yazdani E, von Tycowicz C, Miolane N.",
-        "ICLR 2022 Challenge for Computational Geometry & Topology: Design and Results.",
-        "arXiv.",
-    ),
-    Publication(
         "2021",
         "Milman O*, Yelin I*, Aharony N, Katz R, Herzel E, Ben-Tov A, Kuint J, Gazit S, Chodick G, Patalon T, Kishony R.",
         "Community-level evidence for SARS-CoV-2 vaccine protection of unvaccinated individuals.",
