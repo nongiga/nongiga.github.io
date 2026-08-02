@@ -96,6 +96,18 @@ class ProfileContentTests(unittest.TestCase):
             recognition,
         )
 
+    def test_research_focus_uses_three_broad_fields(self):
+        research = profile_card(self.html, "Research focus")
+        items = re.findall(r"<li>(.*?)</li>", research, re.DOTALL)
+        self.assertEqual(
+            items,
+            [
+                "Machine learning for biology",
+                "Microbial genomics",
+                "Biosurveillance",
+            ],
+        )
+
     def test_fellowship_recognition_items_share_one_semantic_line(self):
         recognition = profile_card(self.html, "Fellowships &amp; recognition")
         items = re.findall(r"<li>(.*?)</li>", recognition, re.DOTALL)
