@@ -129,7 +129,7 @@ class ProfileContentTests(unittest.TestCase):
     def test_current_direction_uses_approved_public_language(self):
         for expected in (
             "Building an empirical agenda for biological AI safety",
-            "we think we know surprisingly little about the capabilities of these models",
+            "We know surprisingly little about the capabilities of biological AI models, especially from a safety perspective.",
             "We are now pressure-testing the research agenda and organizational model.",
             "whether the right next step is a hosted program, an independent team, or no new capacity at all.",
         ):
