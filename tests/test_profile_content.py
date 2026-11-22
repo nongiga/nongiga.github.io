@@ -8,7 +8,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 HTML_PATH = ROOT / "index.html"
-DOCX_PATH = ROOT / "Noga_Aharony_CV_Academic_October_2026_public.docx"
+DOCX_PATH = ROOT / "Noga_Aharony_CV_Academic_November_2026_public.docx"
 PDF_PATHS = [
     ROOT / "resume.pdf",
     ROOT / "academic-site/static/uploads/resume.pdf",
@@ -59,12 +59,13 @@ class ProfileContentTests(unittest.TestCase):
         self.assertIn("ML Alignment &amp; Theory Scholars (MATS), Autumn 2026", self.html)
         self.assertIn("Biosecurity and field-building tracks", self.html)
         self.assertNotIn("Gary Abel", self.html)  # mentor changing (22 Oct 2026)
-        self.assertNotIn("BiTS", self.html)  # BiTS asks for no public mention until its own announcement
+        self.assertIn("Big if True Science (BiTS) Accelerator, Biosecurity Cohort", self.html)  # added 21 Nov 2026 on Noga's request
+        self.assertIn("Catalyze Impact", self.html)
         self.assertIn("Pivotal Research Frontier Biodefense Fellow", self.html)
         self.assertIn("biological AI model evaluation", self.html)
         self.assertNotIn("engineered-DNA detection", self.html)
         self.assertNotIn("Incoming Fellow", self.html)
-        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan", "Gary Abel", "BiTS"):
+        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan", "Gary Abel", "Yuval"):
             self.assertNotIn(incorrect, self.html)
 
     def test_public_contact_address_is_current(self):
@@ -166,7 +167,7 @@ class ProfileContentTests(unittest.TestCase):
     def test_fellowship_recognition_items_share_one_semantic_line(self):
         recognition = profile_card(self.html, "Fellowships &amp; recognition")
         items = re.findall(r"<li>(.*?)</li>", recognition, re.DOTALL)
-        self.assertEqual(len(items), 5)
+        self.assertEqual(len(items), 7)
         for item in items:
             self.assertNotIn("<br>", item)
             self.assertRegex(
@@ -179,11 +180,11 @@ class ProfileContentTests(unittest.TestCase):
         self.assertNotIn('class="cv-viewer', self.html)
         self.assertNotIn('<object', self.html)
         self.assertIn(
-            '<a href="resume.pdf?v=20261022" target="_blank">CV</a>',
+            '<a href="resume.pdf?v=20261121" target="_blank">CV</a>',
             self.html,
         )
         self.assertGreaterEqual(
-            self.html.count('href="resume.pdf?v=20261022" target="_blank"'),
+            self.html.count('href="resume.pdf?v=20261121" target="_blank"'),
             2,
         )
 
@@ -218,12 +219,14 @@ class ProfileContentTests(unittest.TestCase):
             "Pivotal Research Frontier Biodefense Fellow",
             "CIBB 2026",
             "Professional experience",
-            "Co-founder · MAGENTA",
+            "Founder · MAGENTA",
+            "Big if True Science (BiTS) Accelerator, Biosecurity Cohort",
+            "Catalyze Impact",
             "Evaluation Collaborator · Radical Numerics",
             "Submitted to ICLR 2027.",
         ):
             self.assertIn(expected, text)
-        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan", "Gary Abel", "BiTS", "ASM BIG 2026"):
+        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan", "Gary Abel", "Co-founder", "CEO)", "Yuval", "sprint", "ASM BIG 2026"):
             self.assertNotIn(incorrect, text)
 
     def test_cv_updates_are_in_their_intended_sections(self):
@@ -239,7 +242,7 @@ class ProfileContentTests(unittest.TestCase):
             "Awards and funding",
             "Teaching, mentorship, and scientific service",
         )
-        for expected in ("Pivotal Research", "ML Alignment & Theory Scholars"):
+        for expected in ("Pivotal Research", "ML Alignment & Theory Scholars", "BiTS", "Catalyze Impact"):
             self.assertIn(expected, fellowships)
             self.assertNotIn(expected, awards)
         self.assertIn("CIBB 2026", presentations)
@@ -256,7 +259,7 @@ class ProfileContentTests(unittest.TestCase):
                 for node in ET.fromstring(archive.read(name)).iter(f"{W_NS}t")
             )
             document = ET.fromstring(archive.read("word/document.xml"))
-        self.assertIn("Noga Aharony · Curriculum Vitae · October 2026", footer_text)
+        self.assertIn("Noga Aharony · Curriculum Vitae · November 2026", footer_text)
         rows = list(document.iter(f"{W_NS}tr"))
         self.assertTrue(rows)
         for row in rows:
@@ -266,7 +269,7 @@ class ProfileContentTests(unittest.TestCase):
 
     def test_public_pdfs_match_and_cache_is_current(self):
         self.assertEqual(PDF_PATHS[0].read_bytes(), PDF_PATHS[1].read_bytes())
-        self.assertIn('href="resume.pdf?v=20261022"', self.html)
+        self.assertIn('href="resume.pdf?v=20261121"', self.html)
 
     def test_public_pdf_contains_confirmed_updates(self):
         result = subprocess.run(
@@ -285,10 +288,10 @@ class ProfileContentTests(unittest.TestCase):
             "MAGENTA",
             "Radical Numerics",
             "Submitted to ICLR",
-            "Noga Aharony · Curriculum Vitae · October 2026",
+            "Noga Aharony · Curriculum Vitae · November 2026",
         ):
             self.assertIn(expected, pdf_text)
-        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan", "Gary Abel", "BiTS", "ASM BIG"):
+        for incorrect in ("Geoff Ralston", "Charlie Petty", "Bio Action Plan", "Gary Abel", "Co-founder", "Yuval", "sprint", "ASM BIG"):
             self.assertNotIn(incorrect, pdf_text)
 
 
